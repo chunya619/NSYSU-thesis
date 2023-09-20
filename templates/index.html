@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Decision Making System</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+
+<body>
+
+  <div class="container">
+    <!--****************************** OPTION *******************************-->
+    <div id="option-div" >
+      <div class="option-container">
+        <h2 class="option-title">Option</h2>
+        <form class="option-selection-form">
+          <select id="option-selection" multiple="multiple" style="width: 100%;" onChange="optionList()">
+            <option value="Boss Lady Pizza">Boss Lady Pizza (Pizza)</option>
+            <option value="Boulder Cork">Boulder Cork (American, Steakhouse)</option>
+            <option value="Brasserie Ten Ten">Brasserie Ten Ten (French)</option>
+            <option value="Brooklyn Pizza">Brooklyn Pizza (Pizza)</option>
+            <option value="Dark Horse">Dark Horse (American Bar)</option>
+            <option value="Eureka!">Eureka! (American Bar, Burgers)</option>
+            <option value="Izakaya Amu">Izakaya Amu (Japanese Izakaya)</option>
+            <option value="Kalita Grill Greek Cafe">Kalita Grill Greek Cafe (Greek)</option>
+            <option value="Khow Thai Cafe">Khow Thai Cafe (Thai)</option>
+            <option value="Larkburger - Boulder">Larkburger - Boulder (Burgers)</option>
+            <option value="Leaf Vegetarian Restaurant">Leaf Vegetarian Restaurant (Vegetarian)</option>
+            <option value="Lulu's BBQ">Lulu's BBQ (Barbeque)</option>
+            <option value="Moongate Asian Bistro & Sushi Bar">Moongate Asian Bistro & Sushi Bar (Sushi)</option>
+            <option value="Morning Glory Farm Fresh Cafe">Morning Glory Farm Fresh Cafe (Breakfast & Brunch)</option>
+            <option value="Native Foods">Native Foods (American)</option>
+            <option value="Oak at Fourteenth">Oak at Fourteenth (American)</option>
+            <option value="Pasta Jay's">Pasta Jay's (Italian)</option>
+            <option value="Sancho's Authentic Mexican Restaurant">Sancho's Authentic Mexican Restaurant (Mexican)</option>
+            <option value="Sforno Trattoria Romana">Sforno Trattoria Romana (Italian)</option>
+            <option value="Snooze, an A.M. Eatery">Snooze, an A.M. Eatery (American Brunch)</option>
+            <option value="Spice China">Spice China (Chinese)</option>
+            <option value="Spruce Farm & Fish">Spruce Farm & Fish (American, Seafood)</option>
+            <option value="Tacos Aya Yay">Tacos Aya Yay (Mexican)</option>
+            <option value="Tahona Tequila Bistro">Tahona Tequila Bistro (Bar)</option>
+            <option value="Tasuki">Tasuki (Japanese Izakaya)</option>
+            <option value="The Melting Pot">The Melting Pot (Fondue)</option>
+            <option value="Zoe Ma Ma">Zoe Ma Ma (Chinese)</option>
+          </select>
+        </form>
+      </div>
+    </div>
+
+    <!--****************************** OBJECTIVE *******************************-->
+    <div id="objective-div">
+      <div id="objective-title">
+        <h2 class="option-title">Objective</h2>
+        <div class="tooltip">
+          <i class="far fa-question-circle"></i>
+          <!-- <p class="notice-text" style="margin-left:15px; color:#8B8B7A;"><b> &#8592; start here !</b></p> -->
+          <span class="tooltiptext" style="margin-left:-200px;"> 
+            <b style="font-size: 18px;"> -- Objective -- </b> 
+            <br>
+            Step :<br>
+            1. Use the '+' button to create a table and add your criteria.<br>
+            2. Choose your options in 'Option' bar at the top.<br>
+            3. Each table cell has a '5 stars' where you can rate your satisfaction with each criteria.
+            </span>
+        </div>
+      </div>
+    <div class="table-container">
+      <div class="table-responsive">
+        <table id="table">
+          <thead>
+            <tr>
+              <th style="width:40px"><i class="fas fa-plus-circle" onclick="addRow()"></i></th>
+              <th style="width:180px; font-size:18px;">Objective</th>
+            </tr>
+          </thead>
+        </table>
+        <div id="ratingResults"></div>
+      </div>
+    </div>
+    </div>
+
+      
+    <!--****************************** VISUALIZATION *******************************-->
+    <div id="viz-div">
+
+    <!-- tabs of reviews, photo and map -->
+    <div class="tab">
+      <button class="tablinks active" onclick="openChart(event, 'Reviews')">Reviews</button>
+      <button class="tablinks" onclick="openChart(event, 'Photo')">Photo</button>
+      <button class="tablinks" onclick="openChart(event, 'Map')">Map</button>
+    </div>
+
+    <!-- reviews -->
+    <div id="Reviews" class="tabcontent" style="display:block">
+      <div class="viz-features-container">
+        <form action="/action-page.php">
+          <div class="keyword-label">
+            <i class="fad fa-key-skeleton fa-lg"></i>
+            &thinsp;
+            <label>Keyword</label>
+          </div>
+          <input type="text" id="reviews-input" value="" placeholder="Enter a keyword." >  
+          <div class="tooltip">
+            <i class="far fa-question-circle"></i>
+            <span class="tooltiptext"> 
+              <b style="font-size: 18px;"> 
+                <i class="fad fa-key-skeleton fa-lg" style="font-size: 17px;"></i> -- Keyword -- </b> 
+              <br>
+              1. Enter a keyword that you focus on.<br>
+              2. Every review containing that keyword will be filtered and displayed as a scatterplot below.<br>
+              <br>
+              <p>  ==============================================</p>
+              <b style="font-size: 18px;">
+                <i class="fad fa-filter" style="font-size: 16px;"></i> -- Filter -- </b> 
+              <br>
+              1. The options displayed in the filter bar correspond to the options in 'Option' bar.
+              2. You can delete options with 'x'.<br>
+              3. The scatterplot below changes according to your options.<br>
+              <br>
+              <p>  ==============================================</p>
+              <b style="font-size: 18px;"> 
+                <i class="fad fa-chart-scatter" style="font-size: 18px;"></i> -- Scatterplot -- </b> 
+              <br>
+              1. Sentiment score(y-axis) : based on 0, greater than 0 is positive, and less than 0 is negative.<br>
+              2. Year(x-axis) : the year each review was published.<br>
+              3. You can view the content of the review by hovering over or clicking on each point.
+            </span>
+          </div>
+        </form>
+      </div>
+      <div id="filter-div" class="viz-features-container">
+        <form action="/action-page.php" class="filter-form">
+          <div class="filter-label">
+            <i class="fad fa-filter"></i>
+            &thinsp;
+            <label>Filter</label>
+          </div>
+            <select id="filter" multiple="multiple"></select>
+        </form>
+      </div>
+      <div id="reviews-viz">
+        <p class="viz-notice-text"><b><br>Select options to view the data of each business !</b></p>
+      </div>
+    </div>
+
+    <!-- photo -->
+    <div id="Photo" class="tabcontent" style="display:none">
+      <div class="viz-features-container">
+        <form action="/action-page.php">
+          <div class="label-label">
+            <i class="fad fa-photo-video" style="font-size: 16px;"></i>
+            &thinsp;
+            <label>Photo Label</label>
+          </div>
+          <select id="label">
+            <option value="all">All</option>
+            <option value="drink">Drink</option>
+            <option value="food">Food</option>
+            <option value="interior">Interior</option>
+            <option value="outside">Outside</option>
+            <option value="menu">Menu</option>
+          </select>
+          <div class="tooltip">
+            <i class="far fa-question-circle"></i>
+            <span class="tooltiptext"> 
+              <b style="font-size: 18px;"> 
+                <i class="far fa-photo-video" style="font-size: 17px;"></i>  -- Photo Label -- </b> 
+              <br><br>
+              Use label to filter the type of photos you want to focus on.
+              </span>
+          </div>
+        </form>
+      </div>
+      <div id="photo-viz">
+        <p class="viz-notice-text"><b><br>Select options to view the data of each business !</b></p>
+      </div>
+    </div>
+    
+     <!-- map -->
+    <div id="Map" class="tabcontent" style="display:none">
+      <div class="viz-features-container">
+        <form action="/action-page.php">
+            <div class="map-label">
+              <i class="fad fa-map-pin fa-lg"></i>
+              &thinsp;
+              <label>Departure</label>
+            </div>
+              <input id="map-input" type="search" placeholder="Enter a Location.">
+          </form>
+      </div>
+      <div class="viz-features-container">
+        <form action="/action-page.php">
+          <div class="destination-label">
+            <i class="fad fa-map-marker-alt fa-lg"></i>
+            &thinsp;
+            <label>Destination</label>
+          </div>
+          <select id="destination"></select>
+          <div class="tooltip">
+            <i class="far fa-question-circle"></i>
+            <span class="tooltiptext"> 
+              <b style="font-size: 18px;"> 
+                <i class="fad fa-map-pin fa-lg" style="font-size:17px;"></i> -- Departure -- </b> 
+              <br>
+              1. Enter the departure in the search bar for the departure and press the "Enter" button.<br>
+              2. The system will display the distance between your departure and destination in a bar chart.
+              <br><br>
+              <p>  ==============================================</p>
+              <b style="font-size: 18px;"> 
+                <i class="fas fa-map-marker-alt" style="font-size:17px;"></i> -- Destination -- </b> 
+              <br>
+              1. Destination will appear in the drop-down menu after selecting "Options" above.<br>
+              2. Distance will be displayed on the map after you select the destination and departure.
+              </span>
+          </div>
+        </form>
+      </div>
+      <div id="map-viz">
+        <!-- div of google map -->
+          <br>
+          <div id="map"></div>
+          <label style="font-size: 18px;">
+            <i class="fad fa-chart-bar" style="font-size:18px;"></i>  Distance from your departure to each destination :</label>
+          <div class="tooltip">
+            <i class="far fa-question-circle"></i>
+            <span class="tooltiptext"> 
+              <b style="font-size: 18px;"> 
+                <i class="fad fa-chart-bar" style="font-size:17px;"></i> -- Bar Chart -- </b> 
+              <br>
+              1. Bar chart will be generated after you enter the departure.<br>
+              2. Bar chart shows the distance between departure and destination.
+              <br>
+              <br>
+              ** make sure you press "Enter" in the Departure search bar when your bar chart is not showing.
+              </span>
+          </div>
+      </div>
+      <div id="map-bar-chart-viz"></div>
+    </div>
+
+  </div>
+
+  
+
+
+<!-- THE JAVASCRIPT FILES -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://d3js.org/d3-zoom.v2.min.js"></script>
+  <script src="https://d3js.org/d3-drag.v2.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATG2yeyxtKsnFokrCzAVRuG6oVtfgZ_eg&libraries=places"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATG2yeyxtKsnFokrCzAVRuG6oVtfgZ_eg&callback=mapViz&libraries=places&v=weekly"
+        defer
+    ></script>
+    <script src="https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=skog%20haus&inputtype=textquery&fields=name,icon_mask_base_uri,icon_background_color&key=AIzaSyATG2yeyxtKsnFokrCzAVRuG6oVtfgZ_eg"></script>
+  <script src="../static/js/resizableDiv.js"></script>
+  <script src="../static/js/chosen.jquery.min.js"></script>
+  <script src="../static/js/chosen.js"></script>
+  <script src="../static/js/optionSelection.js"></script> 
+  <script src="../static/js/reviewsVisualization.js"></script>
+  <script src="../static/js/mapVisualization.js"></script>
+  <script src="../static/js/tabs.js"></script>
+  <script src="../static/js/consequenceTable.js"></script>
+  <script src="../static/js/consequenceTableFunction.js"></script>
+  <script src="../static/js/consequenceTableRating.js"></script> 
+  <script src="../static/js/photoVisualization.js"></script>
+  <script src="../static/js/questionTooltip.js"></script>
+  <script> mapViz() </script>
+
+  
+
+</body>
+</html>
